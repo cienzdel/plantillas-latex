@@ -1,0 +1,41 @@
+% !TEX program = lualatex
+% documento.tex: documento largo con el estilo del Reglamento (informes,
+% propuestas, comparativas). Ejemplo.
+\documentclass[a4paper,11pt]{article}
+
+\newcommand{\titulo}{Título del documento}
+\newcommand{\subtitulo}{Subtítulo opcional}
+\newcommand{\autor}{Consejo de Estudiantes de la Facultad de Ciencias}
+\newcommand{\fecha}{Enero de 2099}
+\newcommand{\piedepagina}{Título corto para el pie de página}
+
+\input{estilo-consejo}
+\usepackage[hidelinks]{hyperref}
+% Sin /OpenAction (pdfstartview vacío): con acciones en el PDF falla la firma.
+\hypersetup{pdftitle={\titulo}, pdfauthor={\autor}, pdflang={es-ES},
+  pdfstartview={}, pdfpagemode=UseNone}
+
+\begin{document}
+
+\title{\bfseries\fontsize{21pt}{24pt}\selectfont \color{DeleAzul}\titulo\\[4pt]\textcolor{DarkGray3}{\fontsize{14pt}{16pt}\selectfont \subtitulo}}
+\author{\vspace{-0.5cm}\autor}
+\date{\vspace{-0.5cm}\small\fecha}
+\maketitle
+\thispagestyle{fancy}
+
+\section{Primera sección}
+El logotipo, la dirección y el sello de la Facultad en fondo de agua los pone
+\texttt{estilo-consejo.tex} en todas las páginas, con las medidas del Manual de
+identidad corporativa de la Universidad. Para cambiar la dirección, redefine
+\verb|\direcciondoc|.
+
+\subsection{Una tabla}
+\begin{tabularx}{\linewidth}{lX}
+\toprule
+Columna & Descripción\\
+\midrule
+A & Texto de ejemplo.\\
+\bottomrule
+\end{tabularx}
+
+\end{document}

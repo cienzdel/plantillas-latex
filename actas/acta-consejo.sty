@@ -1,0 +1,217 @@
+% acta-consejo.sty
+% Estilo de los documentos del Consejo de Estudiantes (antes Delegación de
+% Estudiantes) de la Facultad de Ciencias (Unizar). Replica la maquetación de las actas de Word de
+% 2024-25: fondo con logo y escudo, asistencia en una columna estrecha a la
+% izquierda mientras dura y, después, texto a ancho completo.
+%
+% No se toca al redactar un acta: el contenido va en acta.tex y los datos
+% fijos (órgano, firmante, borrador) en config.tex.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{acta-consejo}[2026/11/04 Documentos del Consejo de Estudiantes de Ciencias]
+
+% ---------------------------------------------------------------- Básico
+\RequirePackage{iftex}
+\ifPDFTeX
+  \RequirePackage[T1]{fontenc}
+  \RequirePackage[utf8]{inputenc}
+\else
+  \RequirePackage{fontspec}
+\fi
+\IfFileExists{spanish.ldf}{%
+  \RequirePackage[spanish,es-noshorthands,es-noindentfirst]{babel}%
+}{%
+  \PackageWarningNoLine{acta-consejo}{%
+    No se encuentra el idioma spanish de babel:\MessageBreak
+    se compila sin guionado en castellano}%
+}
+\RequirePackage{xcolor}
+\RequirePackage{graphicx}
+\RequirePackage{eso-pic}
+\RequirePackage{paracol}
+\RequirePackage{enumitem}
+\RequirePackage{ragged2e}
+\RequirePackage{needspace}
+
+% ---------------------------------------------------------------- Fuente
+% El Manual de identidad usa Myriad Pro, que es de pago y no va en el
+% repositorio. Con LuaLaTeX o XeLaTeX, si la carpeta fonts/ tiene
+% MyriadPro-Regular.otf, -Bold.otf, -It.otf y -BoldIt.otf, se usa Myriad Pro.
+% En otro caso se usa Source Sans, su pariente libre, y si tampoco está,
+% Helvetica (avisando en el log).
+\newif\ifmyriad
+\myriadfalse
+\ifPDFTeX\else
+  \IfFileExists{fonts/MyriadPro-Regular.otf}{\myriadtrue}{}
+\fi
+\ifmyriad
+  \setmainfont{MyriadPro}[
+    Path = fonts/, Extension = .otf,
+    UprightFont = *-Regular, BoldFont = *-Bold,
+    ItalicFont = *-It, BoldItalicFont = *-BoldIt]
+  \setsansfont{MyriadPro}[
+    Path = fonts/, Extension = .otf,
+    UprightFont = *-Regular, BoldFont = *-Bold,
+    ItalicFont = *-It, BoldItalicFont = *-BoldIt]
+\else
+\IfFileExists{sourcesans.sty}{%
+  \RequirePackage[default]{sourcesans}%
+}{\IfFileExists{sourcesanspro.sty}{%
+  \RequirePackage[default]{sourcesanspro}%
+}{%
+  \PackageWarningNoLine{acta-consejo}{%
+    No se encuentra sourcesans.sty: se usa Helvetica.\MessageBreak
+    Instala el paquete sourcesans para la fuente de los documentos}%
+  \RequirePackage[scaled=0.92]{helvet}%
+  \renewcommand*{\familydefault}{\sfdefault}%
+}}
+\fi
+
+% ---------------------------------------------------------------- Página
+% Maquetación del «oficio» del Manual de identidad corporativa de la
+% Universidad de Zaragoza (pág. 82), adaptada al Consejo de Estudiantes:
+% logotipo a 25 mm del borde superior y 10 mm del izquierdo, con 60 mm de
+% ancho; dirección en el margen inferior izquierdo (15 mm); sello en fondo de
+% agua en el margen inferior derecho. Sin el complemento «unizar.es».
+\RequirePackage[a4paper,left=25mm,right=25mm,top=58mm,bottom=35mm,
+  headheight=0pt,headsep=0pt,footskip=12mm]{geometry}
+\pagestyle{empty}
+
+% Cuerpo 11 pt con el interlineado de Word (~15,3 pt).
+\renewcommand{\normalsize}{\fontsize{11}{15.3}\selectfont}
+\normalsize
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{15.3pt plus 2pt minus 1pt}
+\emergencystretch=1.5em
+\clubpenalty=1000
+\widowpenalty=1000
+
+% ---------------------------------------------------------------- Colores
+% Azul corporativo: Pantone 653 (RGB 34,61,113; #223D71), del Manual de
+% identidad. El rojo y el azul oscuro son los del logo del Consejo.
+\definecolor{azulUZ}{HTML}{223D71}
+\definecolor{azulconsejo}{HTML}{122562}
+\definecolor{rojoconsejo}{HTML}{EE2722}
+
+% ---------------------------------------------------------------- Fondo y BORRADOR
+% \logoacta: logotipo del Consejo (Anexo del Reglamento).
+% \selloacta: sello de la Facultad de Ciencias recortado según el Manual
+%   (los 2/3 superiores izquierdos) y tramado al 10 % del Pantone 653.
+% \direccionacta: bloque de dirección del margen inferior izquierdo.
+\newif\ifborrador
+\borradortrue
+\newcommand{\logoacta}{logo_consejo.pdf}
+\newcommand{\selloacta}{sello_ciencias_agua.pdf}
+\newcommand{\direccionacta}{%
+  \textbf{Consejo de Estudiantes}\\
+  Facultad de Ciencias\\
+  C/ Pedro Cerbuna, 12 · 50009 Zaragoza\\
+  cienzdel@unizar.es}
+\AddToShipoutPictureBG{%
+  \AtPageLowerLeft{%
+    % Sello: caja de 155 mm de ancho pegada al borde derecho; su borde
+    % superior queda a 150 mm del inferior (el resto sangra fuera).
+    \put(\LenToUnit{\paperwidth-155mm},\LenToUnit{-5mm}){%
+      \includegraphics[width=155mm]{\selloacta}}%
+    % Dirección: a 15 mm del borde izquierdo y del inferior.
+    \put(\LenToUnit{15mm},\LenToUnit{15mm}){\makebox(0,0)[bl]{%
+      \parbox[b]{60mm}{\raggedright\fontsize{6.5}{8}\selectfont
+        \color{azulUZ}\direccionacta}}}}%
+  \AtPageUpperLeft{%
+    % Logotipo: 60 mm de ancho, a 10 mm del borde izquierdo y 25 mm del superior.
+    \put(\LenToUnit{10mm},\LenToUnit{-25mm}){\makebox(0,0)[tl]{%
+      \includegraphics[width=60mm]{\logoacta}}}}%
+  \ifborrador
+    \AtPageCenter{\makebox(0,0){\rotatebox[origin=c]{54.7}{%
+      \resizebox{760bp}{!}{\bfseries\color{black!7}BORRADOR}}}}%
+  \fi}
+
+% ---------------------------------------------------------------- Órgano y firmante
+% \setorgano{<artículo: la|el>}{<nombre>} define:
+%   \organo     -> Consejo de Estudiantes
+%   \elorgano   -> el Consejo de Estudiantes   (\Elorgano con mayúscula)
+%   \delorgano  -> del Consejo de Estudiantes
+\newcommand{\organo}{}
+\newcommand{\elorgano}{}
+\newcommand{\Elorgano}{}
+\newcommand{\delorgano}{}
+\newcommand{\setorgano}[2]{%
+  \renewcommand{\organo}{#2}%
+  \def\@tmpa{#1}\def\@tmpb{el}%
+  \ifx\@tmpa\@tmpb
+    \renewcommand{\elorgano}{el #2}\renewcommand{\Elorgano}{El #2}%
+    \renewcommand{\delorgano}{del #2}%
+  \else
+    \renewcommand{\elorgano}{la #2}\renewcommand{\Elorgano}{La #2}%
+    \renewcommand{\delorgano}{de la #2}%
+  \fi}
+\setorgano{el}{Consejo de Estudiantes}
+
+\newcommand{\firmante}{Nombre Apellidos}
+\newcommand{\cargofirmante}{Secretario \delorgano{} de la Facultad de Ciencias}
+
+% ---------------------------------------------------------------- Marca de dudas
+\newcommand{\PENDIENTE}[1][PENDIENTE]{{\textbf{\textcolor{red}{\scshape #1}}}}
+
+% ---------------------------------------------------------------- Asistencia
+% \begin{paracol}{2}
+%   \begin{asistencia} \grupo{...} \asis[...]{...} ... \end{asistencia}
+% \switchcolumn
+%   apertura y primeros puntos
+% \end{paracol}
+\columnratio{0.406}
+\setlength{\columnsep}{31.5pt}
+\setlength{\columnseprule}{0pt}
+\newif\if@primergrupo
+\newenvironment{asistencia}{%
+  \RaggedRight\setlength{\parskip}{0pt}\@primergrupotrue
+  {\bfseries ASISTENTES}\par\nopagebreak}{\par}
+\newcommand{\grupo}[1]{\par
+  \if@primergrupo\global\@primergrupofalse\else\addvspace{15.3pt}\fi
+  \Needspace{2\baselineskip}{\bfseries #1}\par}
+% \asis{Nombre Apellidos} o \asis[Grado en Física]{Nombre Apellidos}
+\newcommand{\asis}[2][]{%
+  #2\if\relax\detokenize{#1}\relax\else\ (#1)\fi\par}
+
+% ---------------------------------------------------------------- Puntos del ODD
+% \punto{Título con su punto final.}       -> «N. Título.» en negrita, sangría francesa
+% \subpunto{Título con su punto final.}    -> «N.a. Título.»
+\newcounter{punto}
+\newcounter{subpunto}[punto]
+\globalcounter{punto}
+\globalcounter{subpunto}
+\newlength{\@anchonum}
+\newcommand{\@cabecera}[2]{% #1 = número, #2 = título
+  \par\addvspace{\parskip}%
+  \settowidth{\@anchonum}{\bfseries #1\ }%
+  \ifdim\@anchonum<18pt\setlength{\@anchonum}{18pt}\fi
+  {\bfseries\justifying\setlength{\parskip}{0pt}%
+   \hangindent=\@anchonum\hangafter=1
+   \noindent\makebox[\@anchonum][l]{#1}#2\par}%
+  \nopagebreak\vspace{-\parskip}\nopagebreak}
+\newcommand{\punto}[1]{\refstepcounter{punto}\@cabecera{\thepunto.}{#1}}
+\newcommand{\subpunto}[1]{\refstepcounter{subpunto}%
+  \@cabecera{\thepunto.\alph{subpunto}.}{#1}}
+
+% ---------------------------------------------------------------- Listas
+\setlist[itemize]{label=\textbullet,leftmargin=36pt,labelsep=12pt,nosep,topsep=0pt}
+\setlist[enumerate]{leftmargin=36pt,nosep,topsep=0pt}
+
+% ---------------------------------------------------------------- Cierre y firma
+% \cierre{14:11} -> «Sin ningún otro tema que tratar, a las 14:11 se levanta la sesión.»
+\newcommand{\cierre}[1]{%
+  \par\Needspace{9\baselineskip}Sin ningún otro tema que tratar, a las #1 se levanta la sesión.\par
+  Y para que surta los efectos oportunos, así lo firmo, doy fe,\par}
+% Hueco para la firma digital (AutoFirma / Acrobat) sobre nombre y cargo.
+\newlength{\huecofirma}
+\setlength{\huecofirma}{2.6cm}
+\newcommand{\firma}{%
+  \par\nopagebreak\vspace{-\parskip}%
+  \begin{center}\setlength{\parskip}{0pt}%
+  \begin{minipage}[t]{4.7cm}\centering
+    \rule{0pt}{\huecofirma}\par
+    {\bfseries\firmante}\par
+    \cargofirmante\par
+  \end{minipage}\end{center}}
+
+\AtBeginDocument{\justifying\setlength{\parindent}{0pt}\frenchspacing}
+\endinput

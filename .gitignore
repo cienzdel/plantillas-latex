@@ -1,0 +1,17 @@
+# Auxiliares de LaTeX
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.xdv
+
+# Los .zip van en los Releases, no en el repositorio
+dist/
+
+# Myriad Pro es de pago: cada cual pone sus archivos en fonts/ y no se suben
+fonts/
+*.otf
+*.ttf

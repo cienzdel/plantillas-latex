@@ -1,0 +1,57 @@
+% !TEX program = lualatex
+% acta.tex: acta de un pleno. Ejemplo con nombres inventados.
+\documentclass[11pt,a4paper]{article}
+\usepackage{acta-consejo}
+\input{config}
+
+\begin{document}
+
+\begin{paracol}{2}
+% ------------------------------------------ Columna izquierda: asistencia
+\begin{asistencia}
+\grupo{Comisión Permanente}
+\asis[Grado en Física]{Lucía Ejemplo Pérez}
+\asis[Grado en Química]{Mario Modelo Gil}
+\asis[Grado en Matemáticas]{Nombre Apellidos}
+
+\grupo{Grado en Biotecnología}
+\asis{Ana Prueba Sanz}
+\asis{Jorge Muestra Lázaro}
+
+\grupo{Grado en Geología}
+\asis{Clara Ficticia Royo}
+
+\grupo{Excusan su asistencia}
+\asis{Pablo Inventado Ruiz}
+\end{asistencia}
+
+\switchcolumn
+% ------------------------------------------ Columna derecha: apertura
+En Zaragoza, siendo las 17:30 del jueves 1 de enero de 2099, en el Salón de
+Actos del Edificio B de la Facultad de Ciencias, en segunda convocatoria, se
+reúne el Pleno \delorgano{} con la asistencia de las personas que figuran al
+margen y el siguiente orden del día:
+
+\punto{Aprobación, si procede, del acta anterior.}
+Se aprueba por asentimiento.
+
+\punto{Informe de la Comisión Permanente.}
+Dña. Lucía Ejemplo resume las actividades realizadas desde el último pleno.
+
+\end{paracol}
+
+% ------------------------------------------ Resto del acta a ancho completo
+\punto{Elecciones de representantes.}
+\subpunto{Comisiones de Garantía de la Calidad.}
+Se presentan las candidaturas y se acuerda votarlas de forma telemática.
+
+\subpunto{Delegaciones de titulación.}
+Se elige por asentimiento a Dña. Ana Prueba como delegada de Biotecnología.
+
+\punto{Ruegos y preguntas.}
+No hay.
+
+\cierre{19:05}
+\firma
+
+\end{document}

@@ -1,0 +1,43 @@
+% !TEX program = lualatex
+% certificado.tex: informe favorable de pertenencia y participación, para
+% pedir créditos por el Acuerdo 2020.23 de la Junta de Facultad.
+% Rellena los dos datos de abajo; el resto no se toca.
+\documentclass[11pt,a4paper]{article}
+\usepackage{acta-consejo}
+% Sin /OpenAction (pdfstartview vacío): hyperref la añade por defecto y hace
+% fallar la firma digital. Los enlaces normales no molestan a la firma.
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdfstartview={}, pdfpagemode=UseNone}
+\input{config}
+
+\newcommand{\nombre}{Nombre Apellidos del estudiante}
+\newcommand{\curso}{2098/2099}
+
+% Acuerdo de reconocimiento de créditos, en la web de la Facultad.
+\newcommand{\urlacuerdo}{https://ciencias.unizar.es/sites/ciencias/files/users/fmlou/pdf/acuerdosjuntafacultad/2020_23_criterios_reconoc_creditos_activ_repres_report.pdf}
+\definecolor{enlace}{HTML}{4A6F8A}
+
+\begin{document}
+
+\begin{center}
+{\Large\bfseries INFORME FAVORABLE DE PERTENENCIA Y PARTICIPACIÓN}
+\end{center}
+
+\firmante, en calidad de \cargofirmante{} de la Universidad de Zaragoza,
+
+\begin{center}{\bfseries HAGO CONSTAR}\end{center}
+
+Que \nombre{} participó activamente en las reuniones \delorgano{} de la
+Facultad de Ciencias de la Universidad de Zaragoza durante el curso \curso,
+asistiendo a suficientes plenos de los convocados durante el curso académico y
+desarrollando una actividad adecuada, por lo que cumple los requisitos
+especificados en el
+\href{\urlacuerdo}{\textcolor{enlace}{\underline{Acuerdo 2020.23 de la Junta de Facultad}}}
+para la solicitud del reconocimiento de créditos ECTS.
+
+Y para que así conste y surta los efectos oportunos, doy fe.
+
+En Zaragoza, a fecha de la firma electrónica.
+\firma
+
+\end{document}

@@ -1,0 +1,50 @@
+% !TEX program = lualatex
+% resolucion.tex: resolución de la Secretaría (p. ej., representantes en
+% comisiones tras un pleno). Ejemplo con nombres inventados.
+\documentclass[11pt,a4paper]{article}
+\usepackage{acta-consejo}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{colortbl}
+\input{config}
+
+\newcommand{\cab}[1]{\cellcolor{azulUZ}\textcolor{white}{\bfseries #1}}
+\newcommand{\desierto}{\emph{[Desierto]} & \\\hline}
+
+% \organo{Título}{filas}: tabla de un órgano con sus representantes.
+% Cada fila: Nombre & Curso de incorporación\\\hline
+\newcommand{\organoT}[2]{%
+  \par\Needspace{5\baselineskip}\vspace{4pt}\noindent
+  {\setlength{\parskip}{0pt}\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.05}%
+  \begin{tabularx}{\linewidth}{|X|p{0.3\linewidth}|}
+  \hline
+  \multicolumn{2}{|l|}{\cab{#1}}\\\hline
+  \cab{Representante} & \cab{Curso de incorporación}\\\hline
+  #2
+  \end{tabularx}}\par}
+
+\begin{document}
+
+\begin{center}
+{\LARGE\bfseries\color{azulUZ} RESOLUCIÓN 01.2099: Representantes en comisiones}
+\end{center}
+
+En la presente resolución, la Secretaría ratifica a los representantes
+designados por el Pleno \delorgano{} de la Facultad de Ciencias celebrado el
+1 de enero de 2099.
+
+\punto{Comisiones de la Facultad.}
+
+\organoT{Comisión de Movilidad}{%
+  Lucía Ejemplo Pérez & 2098/2099\\\hline
+  \desierto}
+
+\punto{Observaciones.}
+\begin{itemize}
+\item Queda desierta una plaza en la Comisión de Movilidad.
+\end{itemize}
+
+Para que conste a los efectos oportunos, se firma a fecha de la firma digital.
+\firma
+
+\end{document}
