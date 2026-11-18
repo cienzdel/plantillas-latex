@@ -52,7 +52,7 @@ Solo hay que tocar `actas/config.tex`:
 - `\setorgano{el}{Consejo de Estudiantes}`: el nombre del órgano. Los textos
   lo usan con `\organo`, `\elorgano` y `\delorgano`, así que si vuelve a
   cambiar basta con tocar esta línea (con `la` o `el` según el artículo).
-- `\borradortrue` o `\borradorfalse`: la marca «BORRADOR» de fondo. Quítala
+- `\borradortrue` o `\borradorfalse`: la marca «BORRADOR», por encima del texto. Quítala
   solo en la versión que se firma.
 
 La dirección del pie se cambia redefiniendo `\direccionacta` (en `actas/`) o
